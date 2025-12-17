@@ -72,12 +72,12 @@
   <script>
     const inputs = document.querySelectorAll('.controls input');
 
-    inputs.forEach(input => {
-      input.addEventListener('input', function (e) {
-        const sizing = e.target.dataset.sizing || '';
-        document.documentElement.style.setProperty(`--${e.target.name}`, e.target.value + sizing);
-      });
-    });
+    function handleUpdate(e) {
+      const suffix = e.target.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${e.target.name}`, e.target.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('input', handleUpdate));
   </script>
 
 </body>
