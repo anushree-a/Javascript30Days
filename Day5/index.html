@@ -80,8 +80,7 @@
     .panel>* {
       margin: 0;
       width: 100%;
-      transition: transform 0.5s;
-      border: 2px solid red;
+      transition: transform 0.5s, opacity 0.3s;
       flex: 1 0 auto;
       display: flex;
       justify-content: center;
@@ -95,12 +94,35 @@
       font-size: 2em;
     }
 
-    .panel p:nth-child(2) {
-      font-size: 4em;
+    /* Hide first and third words by default */
+    .panel p:first-child,
+    .panel p:last-child {
+      opacity: 0;
+      transform: translateY(-20px);
     }
 
+    /* Show second word by default */
+    .panel p:nth-child(2) {
+      font-size: 4em;
+      opacity: 1;
+    }
+
+    /* Expanded panel state */
     .panel.open {
+      flex: 5;
       font-size: 40px;
+    }
+
+    /* When panel is open, show all words in vertical order with larger size */
+    .panel.open p:first-child,
+    .panel.open p:last-child {
+      opacity: 1;
+      transform: translateY(0);
+      font-size: 3em;
+    }
+
+    .panel.open p:nth-child(2) {
+      font-size: 5em;
     }
   </style>
 
@@ -134,7 +156,20 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
 
+    function togglePanel(e) {
+      const clickedPanel = e.currentTarget;
+
+      // Remove 'open' class from all panels
+      panels.forEach(panel => panel.classList.remove('open'));
+
+      // Add 'open' class to clicked panel
+      clickedPanel.classList.add('open');
+    }
+
+    // Add click event listeners to all panels
+    panels.forEach(panel => panel.addEventListener('click', togglePanel));
   </script>
 
 
