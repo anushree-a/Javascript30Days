@@ -13,15 +13,14 @@
   <form class="search-form">
     <input type="text" class="search" placeholder="City or State">
     <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
+      <li>Filter for a place</li>
     </ul>
   </form>
   <script>
     const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-    console.log(endpoint);
-
     const cities = [];
+    const searchInput = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
 
     function searchCities(searchTerm, cityList) {
       if (!searchTerm || !cityList || cityList.length === 0) {
@@ -37,9 +36,6 @@
       });
     }
 
-    const searchInput = document.querySelector('.search');
-    const suggestions = document.querySelector('.suggestions');
-
     function highlightMatch(text, searchTerm) {
       if (!searchTerm) return text;
 
@@ -52,8 +48,7 @@
 
       if (this.value.length === 0) {
         suggestions.innerHTML = `
-          <li>Filter for a city</li>
-          <li>or a state</li>
+          <li>Filter for a place</li>
         `;
         return;
       }
