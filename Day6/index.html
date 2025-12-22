@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    console.log(endpoint);
+
+    const cities = [];
+
+    function searchCities(searchTerm, cityList) {
+      if (!searchTerm || !cityList || cityList.length === 0) {
+        return [];
+      }
+
+      const searchTermLower = searchTerm.toLowerCase();
+
+      return cityList.filter(cityObj => {
+        const cityMatch = cityObj.city && cityObj.city.toLowerCase().includes(searchTermLower);
+        const stateMatch = cityObj.state && cityObj.state.toLowerCase().includes(searchTermLower);
+        return cityMatch || stateMatch;
+      });
+    }
+
+    const searchInput = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+
+    function highlightMatch(text, searchTerm) {
+      if (!searchTerm) return text;
+
+      const regex = new RegExp(`(${searchTerm})`, 'gi');
+      return text.replace(regex, '<span style="background-color: yellow;">$1</span>');
+    }
+
+    function displayMatches() {
+      const matchArray = searchCities(this.value, cities);
+
+      if (this.value.length === 0) {
+        suggestions.innerHTML = `
+          <li>Filter for a city</li>
+          <li>or a state</li>
+        `;
+        return;
+      }
+
+      const html = matchArray.map(place => {
+        const highlightedCity = highlightMatch(place.city, this.value);
+        const highlightedState = highlightMatch(place.state, this.value);
+        return `
+          <li>
+            <span class="name">${highlightedCity}, ${highlightedState}</span>
+          </li>
+        `;
+      }).join('');
+
+      suggestions.innerHTML = html;
+    }
+
+    fetch(endpoint)
+      .then(blob => blob.json())
+      .then(data => {
+        cities.push(...data);
+      });
+
+    searchInput.addEventListener('input', displayMatches);
+  </script>
+</body>
+
+</html>
