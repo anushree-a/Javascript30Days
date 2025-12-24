@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sort Without Articles</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+
+<body>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: url("./central_image.jpeg");
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #bands {
+      list-style: inside square;
+      font-size: 20px;
+      background: white;
+      width: 500px;
+      margin: 60px auto;
+      padding: 0;
+    }
+
+    #bands li {
+      border-bottom: 1px solid #efefef;
+      padding: 20px;
+    }
+
+    #bands li:last-child {
+      border-bottom: 0;
+    }
+
+    a {
+      color: #ffc600;
+      text-decoration: none;
+    }
+  </style>
+
+  <ul id="bands"></ul>
+
+  <script>
+    const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+
+    function stripArticle(bandName) {
+      const articles = ['the ', 'a ', 'an ', 'and '];
+      const lowerName = bandName.toLowerCase();
+
+      for (let article of articles) {
+        if (lowerName.startsWith(article)) {
+          return bandName.substring(article.length).trim();
+        }
+      }
+      return bandName;
+    }
+
+    // Sort bands alphabetically ignoring articles (case-insensitive)
+    const sortedBands = bands.sort((a, b) => {
+      const nameA = stripArticle(a).toLowerCase();
+      const nameB = stripArticle(b).toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+
+    // Populate the list
+    const bandsList = document.getElementById('bands');
+    sortedBands.forEach(band => {
+      const li = document.createElement('li');
+      li.textContent = band;
+      bandsList.appendChild(li);
+    });
+  </script>
+
+</body>
+
+</html>
