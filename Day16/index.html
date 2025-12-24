@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: lightblue
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+
+    h1 {
+      text-shadow: 10px 10px 0 rgb(233, 233, 233);
+      font-size: 100px;
+    }
+  </style>
+
+  <script>
+    const hero = document.querySelector('.hero');
+    const h1 = document.querySelector('h1');
+
+    function moveShadow(e) {
+      const { offsetWidth: width, offsetHeight: height } = hero;
+      const { offsetX: x, offsetY: y } = e;
+
+      // Calculate offset from center
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const deltaX = x - centerX;
+      const deltaY = y - centerY;
+
+      // Normalize to get direction vector
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const xDir = distance > 0 ? deltaX / distance : 0;
+      const yDir = distance > 0 ? deltaY / distance : 0;
+
+      // Translate shadow by 10px in the mouse direction
+      const shadowX = xDir * 10;
+      const shadowY = yDir * 10;
+
+      h1.style.textShadow = `${shadowX}px ${shadowY}px 0 rgb(233, 233, 233)`;
+    }
+
+    hero.addEventListener('mousemove', moveShadow);
+  </script>
+</body>
+
+</html>
