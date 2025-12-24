@@ -50,15 +50,8 @@
     const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
     function stripArticle(bandName) {
-      const articles = ['the ', 'a ', 'an ', 'and '];
-      const lowerName = bandName.toLowerCase();
-
-      for (let article of articles) {
-        if (lowerName.startsWith(article)) {
-          return bandName.substring(article.length).trim();
-        }
-      }
-      return bandName;
+      // Use regex to strip articles at the beginning of the string (case-insensitive)
+      return bandName.replace(/^(the|a|an|and)\s+/i, '').trim();
     }
 
     // Sort bands alphabetically ignoring articles (case-insensitive)
@@ -68,13 +61,9 @@
       return nameA.localeCompare(nameB);
     });
 
-    // Populate the list
+    // Populate the list using map and innerHTML
     const bandsList = document.getElementById('bands');
-    sortedBands.forEach(band => {
-      const li = document.createElement('li');
-      li.textContent = band;
-      bandsList.appendChild(li);
-    });
+    bandsList.innerHTML = sortedBands.map(band => `<li>${band}</li>`).join('');
   </script>
 
 </body>
