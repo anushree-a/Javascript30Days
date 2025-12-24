@@ -39,28 +39,36 @@
     highlight.classList.add('highlight');
     document.body.appendChild(highlight);
 
+    let currentLink = null;
+
     function highlightLink(e) {
       const link = e.currentTarget;
+      currentLink = link;
       const linkCoords = link.getBoundingClientRect();
 
       highlight.style.width = `${linkCoords.width}px`;
       highlight.style.height = `${linkCoords.height}px`;
-      highlight.style.left = `${linkCoords.left}px`;
-      highlight.style.top = `${linkCoords.top}px`;
+      highlight.style.left = `${linkCoords.left + window.scrollX}px`;
+      highlight.style.top = `${linkCoords.top + window.scrollY}px`;
     }
 
     // Attach listeners to all links
     const triggers = document.querySelectorAll('a');
     triggers.forEach(a => {
       a.addEventListener('mouseenter', highlightLink);
-      a.addEventListener('mousemove', highlightLink);
+      a.addEventListener('mouseleave', () => {
+        currentLink = null;
+      });
     });
 
     // Update on scroll
     window.addEventListener('scroll', () => {
-      const activeLink = document.querySelector('a:hover');
-      if (activeLink) {
-        highlightLink({ currentTarget: activeLink });
+      if (currentLink) {
+        const linkCoords = currentLink.getBoundingClientRect();
+        highlight.style.width = `${linkCoords.width}px`;
+        highlight.style.height = `${linkCoords.height}px`;
+        highlight.style.left = `${linkCoords.left + window.scrollX}px`;
+        highlight.style.top = `${linkCoords.top + window.scrollY}px`;
       }
     });
   </script>

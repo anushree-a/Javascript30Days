@@ -39,7 +39,7 @@ a {
 }
 
 .highlight {
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   position: absolute;
   background: white;
   border-radius: 10px;
